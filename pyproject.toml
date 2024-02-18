@@ -1,0 +1,175 @@
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "pep440"
+bump = true
+dirty = true
+
+[tool.poetry]
+name = "project"
+version = "0.0.0"
+description = ""
+authors = ["Neto42 <na011912@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.1"
+ruff = "^0.2.1"
+mypy = "^1.8.0"
+bandit = "^1.7.7"
+
+[tool.mypy]
+python_version = "3.10"
+exclude = [
+    ".git",
+    ".ipynb_checkpoints",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "__pycache__",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".pytest_cache",
+    ".venv",
+    "venv",
+    ".vscode",
+]
+strict = true
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = ["requests"]
+ignore_missing_imports = true
+
+[tool.ruff]
+exclude = [
+    ".git",
+    ".ipynb_checkpoints",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "__pycache__",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".pytest_cache",
+    ".venv",
+    "venv",
+    ".vscode",
+]
+line-length = 100
+indent-width = 4
+target-version = "py310"
+namespace-packages = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "F",
+    "W",
+    "E",
+    "C90",
+    "I",
+    "N",
+    "D",
+    "A",
+    "B",
+    "UP",
+    "SLOT",
+    "ARG",
+    "PL",
+    "RUF",
+    # "SIM",
+    # "DTZ",
+    # "EM",
+    # "G",
+    # "C4",
+    # "PIE",
+    # "PT",
+    # "T20",
+    # "PTH",
+]
+ignore = [
+    # Рекомендация ruff для фомратера
+    # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+    "W191", # табуляция в отсупе
+    "E111", # Большой отступ
+    "E114", # Большой отступ (комментаррий)
+    "E117", # Чрезмерный отступ (комментарий)
+    "D203", # Перед строкой документации класса требуется 1 пустая строка.
+    "D212", # Многострочное резюме документации должно начинаться с первой строки.
+    "D206", # Строка документации должна иметь отступы с пробелами, а не с табуляцией.
+    "D300", # Использование """
+    "Q",    # Кавычки
+    "COM",  # Запятые
+    "ISC",  # Строковое объединение
+]
+fixable = [
+    "F",
+    "W",
+    "E",
+    "I",
+    "D",
+    "B",
+    "UP",
+    "PL",
+    "RUF",
+    # "SIM",
+    # "C4",
+    # "PIE",
+    # "PT",
+    # "T20",
+    # "PTH",
+]
+unfixable = ["ALL"]
+ignore-init-module-imports = true
+preview = true
+
+[tool.ruff.lint.isort]
+known-local-folder = ["src"]
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 72
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"**/{tests,docs,tools}/*" = ["PLR6301", "PLR2004"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+docstring-code-format = true
+docstring-code-line-length = 80
+
+[tool.bandit]
+exclude_dirs = [
+    ".eggs",
+    ".git",
+    ".ipynb_checkpoints",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "__pycache__",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".pytest_cache",
+    ".venv",
+    "venv",
+    ".vscode",
+    "tests",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ". src"
+testpaths = ["tests"]
