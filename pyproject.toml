@@ -1,7 +1,9 @@
+# https://python-poetry.org/docs/
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"
 
+# https://github.com/mtkennerly/poetry-dynamic-versioning
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"
@@ -24,9 +26,13 @@ ruff = "^0.2.1"
 mypy = "^1.8.0"
 bandit = "^1.7.7"
 
+# https://mypy.readthedocs.io/en/stable/
+coverage = "^7.4.1"
+invoke = "^2.2.0"
 [tool.mypy]
 python_version = "3.10"
 exclude = [
+    ".coverage_html",
     ".git",
     ".ipynb_checkpoints",
     "build",
@@ -48,8 +54,10 @@ explicit_package_bases = true
 module = ["requests"]
 ignore_missing_imports = true
 
+# https://mypy.readthedocs.io/en/stable/
 [tool.ruff]
 exclude = [
+    ".coverage_html",
     ".git",
     ".ipynb_checkpoints",
     "build",
@@ -98,17 +106,20 @@ select = [
 ignore = [
     # Рекомендация ruff для фомратера
     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
-    "W191", # табуляция в отсупе
-    "E111", # Большой отступ
-    "E114", # Большой отступ (комментаррий)
-    "E117", # Чрезмерный отступ (комментарий)
-    "D203", # Перед строкой документации класса требуется 1 пустая строка.
-    "D212", # Многострочное резюме документации должно начинаться с первой строки.
-    "D206", # Строка документации должна иметь отступы с пробелами, а не с табуляцией.
-    "D300", # Использование """
-    "Q",    # Кавычки
-    "COM",  # Запятые
-    "ISC",  # Строковое объединение
+    "W191",   # табуляция в отсупе
+    "E111",   # Большой отступ
+    "E114",   # Большой отступ (комментаррий)
+    "E117",   # Чрезмерный отступ (комментарий)
+    "D203",   # Перед строкой документации класса требуется 1 пустая строка.
+    "D212",   # Многострочное резюме документации должно начинаться с первой строки.
+    "D206",   # Строка документации должна иметь отступы с пробелами, а не с табуляцией.
+    "D300",   # Использование """
+    "D415",   # Точка в конце
+    "Q",      # Кавычки
+    "COM",    # Запятые
+    "ISC",    # Строковое объединение
+    "RUF001", # Кириллица
+    "RUF002", # Кириллица
 ]
 fixable = [
     "F",
@@ -151,8 +162,10 @@ skip-magic-trailing-comma = false
 docstring-code-format = true
 docstring-code-line-length = 80
 
+# https://bandit.readthedocs.io/en/latest/
 [tool.bandit]
 exclude_dirs = [
+    ".coverage_html",
     ".eggs",
     ".git",
     ".ipynb_checkpoints",
@@ -170,6 +183,31 @@ exclude_dirs = [
     "tests",
 ]
 
+# https://docs.pytest.org/en/stable/reference/reference.html#configuration-options
 [tool.pytest.ini_options]
 pythonpath = ". src"
 testpaths = ["tests"]
+console_output_style = "count"
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_"
+
+# https://coverage.readthedocs.io/en/7.4.1
+[tool.coverage.run]
+branch = true
+source = ["project"]
+omit = ["docs", "tests"]
+
+[tool.coverage.report]
+sort = "cover"
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    "@(abc\\.)?abstractmethod",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+ignore_errors = true
+include_namespace_packages = true
+
+[tool.coverage.html]
+directory = ".coverage_html"

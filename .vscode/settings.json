@@ -1,11 +1,11 @@
 {
     "mypy.enabled": true,
-    // "mypy.dmypyExecutable": "${workspaceFolder}/.venv/bin/dmypy",
-    "mypy.configFile": "pyproject.toml",
-    "bandit.args": ["--config=pyproject.toml"],
-    "ruff.lint.args": ["--config=pyproject.toml"],
-    "ruff.format.args": ["--config=pyproject.toml"],
+    "mypy.dmypyExecutable": "${workspaceFolder}/.venv/bin/dmypy",
+    "mypy.configFile": "${workspaceFolder}/pyproject.toml",
+    "bandit.args": ["--config=${workspaceFolder}/pyproject.toml"],
+    "ruff.lint.args": ["--config=${workspaceFolder}/pyproject.toml"],
+    "ruff.format.args": ["--config=${workspaceFolder}/pyproject.toml"],
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff"
-    },
+    }
 }
